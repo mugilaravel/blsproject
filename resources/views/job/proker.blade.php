@@ -12,6 +12,26 @@
 
 
 @section('content_main')
+
+
+{{-- <div class="form-group">
+    <label for="descripsi">Desc</label>
+    <input type="text" name="descripsi" class="form-control" id="descripsi">
+</div> --}}
+
+{{-- <form class="form-inline" action="@yield('urlCari')">
+    <div class="input-group input-group-sm">
+      <input class="form-control form-control-navbar" type="search" name="cari" 
+      placeholder="Cari" aria-label="CARI">
+      <div class="input-group-append">
+        <button class="btn btn-navbar" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+</form> --}}
+
+
     <div class="card-body table-responsive p-0">
             @if (session('sukses'))
                 <div class="alert alert-primary" role="alert">
@@ -33,14 +53,14 @@
                     <tr>
                     <th>Kode</th>
                     <th>Nama Proker</th>
-                    <th>Descripsi</th>
-                    <th>Jenis</th>
+                    {{-- <th>Descripsi</th> --}}
+                    {{-- <th>Jenis</th> --}}
                     <th>Departemen</th>
                     <th>Divisi</th>
-                    <th>PIC</th>
+                    {{-- <th>PIC</th> --}}
                     <th>Status</th>
-                    <th>Mulai</th>
-                    <th>Selesai</th>
+                    {{-- <th>Mulai</th> --}}
+                    {{-- <th>Selesai</th> --}}
                     <th>Tahun</th>
                     <th>Aksi</th>
                     
@@ -49,14 +69,14 @@
                 <tr>              
                     <td>{{$proker->kode}}</td>
                     <td>{{$proker->nama}}</td> 
-                    <td>{{$proker->descripsi}}</td>  
-                    <td>{{$proker->jenis}}</td>  
+                    {{-- <td>{{$proker->descripsi}}</td>   --}}
+                    {{-- <td>{{$proker->jenis}}</td>   --}}
                     <td>{{$proker->departemen->nama}}</td>  
                     <td>{{$proker->divisi->nama}}</td>  
-                    <td>{{$proker->pic_nik}}</td>  
+                    {{-- <td>{{$proker->pic_nik}}</td>   --}}
                     <td>{{$proker->status}}</td>  
-                    <td>{{$proker->mulai}}</td>  
-                    <td>{{$proker->selesai}}</td> 
+                    {{-- <td>{{$proker->mulai}}</td>   --}}
+                    {{-- <td>{{$proker->selesai}}</td>  --}}
                     <td>{{$proker->tahun}}</td>  
                     <td><a href="/job/proker/{{$proker->id}}/prokeredit" class="btn btn-sm btn-warning">edit</a>
                         <a href="/job/proker/{{$proker->id}}/prokerdelete" class="btn btn-sm btn-danger" 
@@ -88,17 +108,17 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="tahun">Tahun</label>
-                                <select name="tahun" class="form-control">
-                                    <option value="">Tahun</option>
-                                    <option value='2019'>2019</option>
-                                    <option value='2020'>2020</option>
-                                    <option value='2021'>2021</option>
-                                  </select>
+                                  <select name="tahun" class="form-control" id="tahun">
+                                    <option value="">--Tahun--</option>
+                                    @foreach ($data_tahun as $tahun)
+                                    <option value={{$tahun->param_value}}>{{$tahun->param_desc}}</option>
+                                    @endforeach
+                                </select>     
                             </div>
-                            <div class="form-group col-md-8">
+                            {{-- <div class="form-group col-md-8">
                             <label for="kode">Kode Proker</label>
                             <input type="text" name="kode" class="form-control" id="kode">
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="form-group">
@@ -111,14 +131,27 @@
                         </div>
                         <div class="form-group">
                             <label for="jenis">Jenis</label>
-                            {{-- <input type="text" name="jenis" class="form-control" id="jenis"> --}}
-                            <select name="jenis" class="form-control">
-                                <option value="">Jenis</option>
-                                <option value='RTN'>Rutin</option>
-                                <option value='NIS'>Non IS</option>
-                                <option value='IS'>IS</option>
-                            </select>
+                            <select name="jenis" class="form-control" id="jenis">
+                                <option value="">--Jenis--</option>
+                                @foreach ($data_jenis as $jenis)
+                                <option value={{$jenis->param_value}}>{{$jenis->param_desc}}</option>
+                                @endforeach
+                            </select>  
                         </div>
+                        <div class="form-group">
+                            <label for="tipe">Tipe</label>
+                            <select name="tipe" class="form-control" id="tipe">
+                                <option value="">--Tipe--</option>
+                                @foreach ($data_tipe as $tipe)
+                                <option value={{$tipe->param_value}}>{{$tipe->param_desc}}</option>
+                                @endforeach
+                            </select>  
+                        </div>
+
+
+
+
+
                         <div class="form-group">
                             <label for="divisi">Divisi</label>
                             <select name="divisi_kode" class="form-control" id="divisi_kode">
@@ -143,14 +176,20 @@
                         </div>
                         <div class="form-group">
                             <label for="status">Status</label>
-                            <input type="text" name="status" class="form-control" id="status">
+                            {{-- <input type="text" name="status" class="form-control" id="status"> --}}
+                            <select name="status" class="form-control" id="status">
+                                <option value="">--Status--</option>
+                                @foreach ($data_status as $status)
+                                <option value={{$status->param_value}}>{{$status->param_desc}}</option>
+                                @endforeach
+                            </select>    
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="mulai">Mulai</label>
                                 <input type="date" name="mulai" class="form-control" id="mulai">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="selesai">Selesai</label>
                                 <input type="date" name="selesai" class="form-control" id="selesai">
                             </div>
@@ -172,17 +211,15 @@
     $(document).ready(function() {
         $('select[name="divisi_kode"]').on('change', function() {
             var divisi_kode = $(this).val();
-            // alert('tes....................'+stateID);
+            // alert('tes....................'+divisi_kode);
             if(divisi_kode) {
                 $.ajax({
                     url: '/admin/departemen/'+divisi_kode+'/departemenbydivisi',
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
-                        // alert(JSON.stringify(data));
                         $('select[name="departemen_kode"]').empty();
                         $.each(data, function(key, value) {
-                            // alert(JSON.stringify(value));
                             $('select[name="departemen_kode"]').append('<option value="'+ value.kode +'">'+ value.nama +'</option>');
                         });
                     }

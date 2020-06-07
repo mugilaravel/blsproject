@@ -22,5 +22,11 @@ class Departemen extends Model
         return $this->hasMany('App\User','depatemen_kode','kode');
         // FK-->divisi_kode pada table departement, ID --> dari divisi
     }
+
+    public function proker()//masternya
+    {
+        return $this->hasMany('App\Proker','depatemen_kode','kode');
+        // FK-->divisi_kode pada table departement, ID --> dari divisi
+    }
     
 }

@@ -20,7 +20,7 @@
             @endif
             <div class="row text-nowrap">
                 <div class="col-5" style="padding-left: 20px; padding-top: 5px;">
-                    <h3>Daftar Departemen</h3>
+                    <h3>Daftar Parameter</h3>
                 </div>
                 <div class="col-6" style="padding-top: 5px;">
                     <button type="button" class="btn btn-primary btn-sm float-right"  
@@ -31,29 +31,28 @@
                 
                 <table class="table table-hover text-nowrap">
                     <tr>
-                    <th>Kode</th>
-                    <th>Nama Deparetmen</th>
-                    <th>Nik Kadept</th>
-                    <th>Nama Kadept</th>
-                    <th>Kode Divisi</th>
+                    <th>Param_key</th>
+                    <th>Param_Value</th>
+                    <th>Param_Desc</th>
+                    <th>Param_Status</th>
+                    <th>Param_Seq</th>
                     <th>Aksi</th>
-                    
                 </tr>
-                @foreach ($data_departemen as $departemen)
+                @foreach ($data_param as $param)
                 <tr>              
-                    <td>{{$departemen->kode}}</td>
-                    <td>{{$departemen->nama}}</td> 
-                    <td>{{$departemen->nik_kadept}}</td>  
-                    <td>{{$departemen->nama_kadept}}</td>    
-                    <td>{{$departemen->divisi->nama}}</td>   
-                    <td><a href="/admin/departemen/{{$departemen->id}}/departemenedit" class="btn btn-sm btn-warning">edit</a>
-                        <a href="/admin/departemen/{{$departemen->id}}/departemendelete" class="btn btn-sm btn-danger" 
+                    <td>{{$param->param_key}}</td>
+                    <td>{{$param->param_value}}</td> 
+                    <td>{{$param->param_desc}}</td>  
+                    <td>{{$param->param_status}}</td>  
+                    <td>{{$param->param_seq}}</td>     
+                    <td><a href="/admin/param/{{$param->id}}/paramedit" class="btn btn-sm btn-warning">edit</a>
+                        <a href="/admin/param/{{$param->id}}/paramdelete" class="btn btn-sm btn-danger" 
                             onclick="return confirm('Yakin mau dihapus ?')">Delete</a>
                     </td>
                 </tr>
                 @endforeach
             </table>
-            {{$data_departemen->links()}}
+            {{$data_param->links()}}
         </div>
 
 
@@ -64,39 +63,33 @@
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Input departemen</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Input Divisi</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/admin/departemencreate" method="POST">
+                    <form action="/admin/paramcreate" method="POST">
                         {{ csrf_field() }}
                         <div class="form-group">
-                          <label for="kode">Kode Departemen</label>
-                          <input type="text" name="kode" class="form-control" id="kode">
+                          <label for="kode">Param Key</label>
+                          <input type="text" name="param_key" class="form-control" id="param_key">
                         </div>
                         <div class="form-group">
-                            <label for="nama">Nama Departemen</label>
-                            <input type="text" name="nama" class="form-control" id="nama">
+                            <label for="param_value">Param Value</label>
+                            <input type="text" name="param_value" class="form-control" id="param_value">
                         </div>
                         <div class="form-group">
-                            <label for="nik_kadept">NIK Kadept</label>
-                            <input type="text" name="nik_kadept" class="form-control" id="nik_kadept">
+                            <label for="param_desc">Param Desc</label>
+                            <input type="text" name="param_desc" class="form-control" id="param_desc">
                         </div>
                         <div class="form-group">
-                            <label for="nama_kadept">Nama Kadept</label>
-                            <input type="text" name="nama_kadept" class="form-control" id="nama_kadept">
+                            <label for="param_status">Param Status</label>
+                            <input type="text" name="param_status" class="form-control" id="param_status">
                         </div>
                         <div class="form-group">
-                            <select name="divisi_kode" class="form-control">
-                                <option value="">Divisi</option>
-                                @foreach ($data_divisi as $divisi)
-                                <option value={{$divisi->kode}}>{{$divisi->nama}}</option>
-                                @endforeach
-                                {{-- <option value="L" @if ($siswa ->jenis_kelamin == 'L') selected @endif>Laki Laki</option>
-                                <option value="P" @if ($siswa ->jenis_kelamin == 'P') selected @endif>Perempuan</option> --}}
-                              </select>
+                            <label for="param_seq">Param Seq</label>
+                            <input type="text" name="param_seq" class="form-control" id="param_seq">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -24,11 +24,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard','DashboardController@dashboard')->name('dashboard');
     Route::get('/blank','DashboardController@blank')->name('blank');
 
+    //User
     Route::get('/admin/user','UserController@user')->name('user');
     Route::post('/admin/createuser','UserController@create');
     Route::get('/admin/user/{id}/useredit','UserController@useredit');
     Route::post('/admin/user/{id}/userupdate','UserController@userupdate');
     Route::get('/admin/user/{id}/userdelete','UserController@userdelete');
+
+    //Param
+    Route::get('/admin/param','ParamController@param')->name('param');
+    Route::post('/admin/paramcreate','ParamController@paramcreate');
+    Route::get('/admin/param/{id}/paramedit','ParamController@paramedit');
+    Route::post('/admin/param/{id}/paramupdate','ParamController@paramupdate');
+    Route::get('/admin/param/{id}/paramdelete','ParamController@paramdelete');
 
     //peserta Divisi
     Route::get('/admin/divisi','DivisiController@divisi')->name('divisi');
@@ -61,13 +69,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/training/pesertatraining/{id}/pesertatrainingdelete','PesertatrainingController@pesertatrainingdelete');
 
 
-     //peserta Proker
+     // Proker
      Route::get('/job/proker','ProkerController@proker')->name('proker');
      Route::post('/job/prokercreate','ProkerController@prokercreate');
      Route::get('/job/proker/{id}/prokeredit','ProkerController@prokeredit');
      Route::post('/job/proker/{id}/prokerupdate','ProkerController@prokerupdate');
      Route::get('/job/proker/{id}/prokerdelete','ProkerController@prokerdelete');
 
+     // ProkerTask
      Route::get('/job/prokertask/{id}','ProkerTaskController@prokertask')->name('prokertask');
      Route::post('/job/prokertaskcreate','ProkerTaskController@prokertaskcreate');
      Route::get('/job/prokertask/{id}/prokertaskedit','ProkerTaskController@prokertaskedit');

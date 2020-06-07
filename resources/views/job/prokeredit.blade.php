@@ -22,43 +22,53 @@
                     <div class="row">
                         <div class="form-group col-md-4">
                             <label for="tahun">Tahun</label>
-                            <select name="tahun" class="form-control">
-                                <option value="">Tahun</option>
-                                <option value='2019' @if ($data_proker->tahun == '2019') selected @endif>2019</option>
-                                <option value='2020' @if ($data_proker->tahun == '2020') selected @endif>2020</option>
-                                <option value='2021' @if ($data_proker->tahun == '2021') selected @endif>2021</option>
-                              </select>
+                            <select name="tahun" class="form-control" id="tahun">
+                                @foreach ($data_tahun as $tahun)
+                                    <option value={{$tahun->param_value}} @if ($data_proker->tahun == $tahun->param_value) selected @endif>{{$tahun->param_desc}}</option>
+                                @endforeach
+                            </select>    
                         </div>
                         <div class="form-group col-md-8">
                         <label for="kode">Kode Proker</label>
-                        <input type="text" name="kode" class="form-control" id="kode">
+                        <input type="text" name="kode" class="form-control" id="kode" value="{{$data_proker->kode}}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="nama">Nama Proker</label>
-                        <input type="text" name="nama" class="form-control" id="nama">
+                        <input type="text" name="nama" class="form-control" id="nama" value='{{$data_proker->nama}}'>
                     </div>
                     <div class="form-group">
                         <label for="descripsi">Desc</label>
-                        <input type="text" name="descripsi" class="form-control" id="descripsi">
+                        <input type="text" name="descripsi" class="form-control" id="descripsi" value='{{$data_proker->descripsi}}'>
                     </div>
                     <div class="form-group">
                         <label for="jenis">Jenis</label>
-                        <select name="jenis" class="form-control">
-                            <option value="">Jenis</option>
-                            <option value='RTN'>Rutin</option>
-                            <option value='NIS'>Non IS</option>
-                            <option value='IS'>IS</option>
-                        </select>
+                        <select name="jenis" class="form-control" id="jenis">
+                            @foreach ($data_jenis as $jenis)
+                                <option value={{$jenis->param_value}} @if ($data_proker->jenis == $jenis->param_value) selected @endif>{{$jenis->param_desc}}</option>
+                            @endforeach
+                        </select>  
                     </div>
+
+                    <div class="form-group">
+                        <label for="tipe">Tipe</label>
+                        <select name="tipe" class="form-control" id="tipe">
+                            <option value="">--Tipe--</option>
+                            @foreach ($data_tipe as $tipe)
+                            {{-- <option value={{$tipe->param_value}}>{{$tipe->param_desc}}</option> --}}
+                            <option value={{$tipe->param_value}} @if ($data_proker->tipe == $tipe->param_value) selected @endif>{{$tipe->param_desc}}</option>
+                      
+                            @endforeach
+                        </select>  
+                    </div>
+
                     <div class="form-group">
                         <label for="divisi">Divisi</label>
                         <select name="divisi_kode" class="form-control" id="divisi_kode">
                             <option value="">Divisi</option>
                             @foreach ($data_divisi as $divisi)
                             <option value={{$divisi->kode}} @if ($divisi->kode == $data_proker->divisi_kode) selected @endif>{{$divisi->nama}}</option>
-                            {{-- <option value={{$divisi->kode}}>{{$divisi->nama}}</option> --}}
                             @endforeach
                         </select>                        
                     </div>
@@ -67,27 +77,31 @@
                         <select name="departemen_kode" class="form-control" id="departemen_kode">
                             <option value="">Departemen</option>
                             @foreach ($data_departemen as $departemen)
-                            {{-- <option value={{$departemen->kode}}>{{$departemen->nama}}</option> --}}
                             <option value={{$departemen->kode}} @if ($departemen->kode == $data_proker->departemen_kode) selected @endif>{{$departemen->nama}}</option>
                             @endforeach
                         </select>       
                     </div>
                     <div class="form-group">
                         <label for="pic_nik">NIK PIC</label>
-                        <input type="text" name="pic_nik" class="form-control" id="pic_nik">
+                    <input type="text" name="pic_nik" class="form-control" id="pic_nik" value="{{$data_proker->pic_nik}}">
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <input type="text" name="status" class="form-control" id="status">
+                        {{-- <input type="text" name="status" class="form-control" id="status"> --}}
+                        <select name="status" class="form-control" id="status">
+                            @foreach ($data_status as $status)
+                                <option value={{$status->param_value}} @if ($data_proker->status == $status->param_value) selected @endif>{{$status->param_desc}}</option>
+                            @endforeach
+                        </select>  
                     </div>
                     <div class="row">
                         <div class="form-group col-md-4">
                             <label for="mulai">Mulai</label>
-                            <input type="date" name="mulai" class="form-control" id="mulai">
+                            <input type="date" name="mulai" class="form-control" id="mulai" value='{{$data_proker->mulai}}'>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="selesai">Selesai</label>
-                            <input type="date" name="selesai" class="form-control" id="selesai">
+                            <input type="date" name="selesai" class="form-control" id="selesai" value='{{$data_proker->selesai}}'>
                         </div>
                     </div>
 

@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepartemenController extends Controller
 {
     public function departemen()
     {
+        $tset = new \App\Services\SeqService();
+        $tset->testService('ssskdhasdhskaj');
+        // dd($tset->testService('ssskdhasdhskaj')->all());
         $departemen = \App\Departemen::paginate(10);;
-        $divisi = \App\Divisi::all();
-         //dd($departemen->all());//,'data_divisi'=>$divisi]
-        // dd($departemen->divisi->kode);
+        $divisi =\App\Divisi::all();
        return view('admin.departemen',['data_departemen'=> $departemen,'data_divisi'=>$divisi]);
     }
 
@@ -26,11 +28,7 @@ class DepartemenController extends Controller
         $departemen->save();
         return redirect('admin/departemen')->with('sukses','Data Berhasil di Simpan');
     }
-    public function departemenbydivisi($divisi_kode)
-    {
-        $departemen = \App\Departemen::where('divisi_kode','=',$divisi_kode)->get();
-        return json_encode($departemen);
-    }
+    
     public function departemendelete($id)
     {
         $departemen = \App\Departemen::find($id);
@@ -51,4 +49,21 @@ class DepartemenController extends Controller
         $training->update($request->all());
         return redirect('admin/departemen')->with('sukses','Data Berhasil di Update');
     }
+
+
+
+    public function departemenbydivisi($divisi_kode)
+    {
+        $user = Auth::user();
+        if($user->role=='ADM'){
+            $departemen = \App\Departemen::where('divisi_kode','=',$divisi_kode)
+            ->get();
+            return json_encode($departemen);
+        }else{
+            $departemen = \App\Departemen::where('divisi_kode','=',$divisi_kode)
+            ->where('kode','=',$user->departemen_kode)->get();
+            return json_encode($departemen);
+        }
+    }
+
 }

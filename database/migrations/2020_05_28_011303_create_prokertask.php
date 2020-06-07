@@ -19,14 +19,14 @@ class CreateProkertask extends Migration
             $table->string('proker_kode');
             $table->string('nama');
             $table->string('descripsi')->nullable();
-            $table->string('jenis');
-            $table->string('pic_nik');
-            $table->string('review_nik');
-            $table->string('review_desc');
-            $table->string('status');
+            $table->string('jenis')->nullable();;
+            $table->string('pic_nik')->nullable();;
+            $table->string('review_nik')->nullable();;
+            $table->string('review_desc')->nullable();;
+            $table->string('status')->nullable();;
             $table->date('mulai')->nullable();
             $table->date('selesai')->nullable();
-            $table->string('doc_path');
+            $table->string('doc_path')->nullable();;
             $table->timestamps();
         });
     }

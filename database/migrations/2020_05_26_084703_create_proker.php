@@ -26,6 +26,7 @@ class CreateProker extends Migration
             $table->date('mulai')->nullable();
             $table->date('selesai')->nullable();
             $table->string('tahun');
+            $table->string('tipe');
             $table->string('image_path');
             $table->timestamps();
         });

@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Proker extends Model
 {
     protected $table ='proker';
-    // protected $fillable = [
-    //     'kode', 'nama', 'program','skill','tgl_mulai','tgl_akhir'
-    // ];
+    protected $fillable = [
+        'kode', 'nama', 'descripsi','jenis','departemen_kode','divisi_kode','pic_nik','status',
+        'mulai','selesai','tahun','image_path','tipe'
+    ];
 
     public function divisi()
     {

@@ -16,7 +16,7 @@
           class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-        <a href="#" class="d-block">{{auth()->user()->name}}</a>
+        <a href="#" class="d-block">{{auth()->user()->name}}::{{auth()->user()->role}}</a>
         </div>
       </div>
 
@@ -33,7 +33,7 @@
                 </a>
               </li>
               <li class="nav-item has-treeview {!! Request::is(['blank','admin/user*','admin/divisi*',
-                'admin/departemen*']) ? 'menu-open' : '' !!}">
+                'admin/departemen*','admin/param*']) ? 'menu-open' : '' !!}">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fa fa-bars"></i>
                   <p>
@@ -60,6 +60,13 @@
                     <a href="{!!route('departemen')!!}" class="nav-link {!! Request::is('admin/departemen*') ? 'active' : '' !!}">
                       <i class="fa fa-building nav-icon"></i>
                       <p>Departemen</p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="{!!route('param')!!}" class="nav-link {!! Request::is('admin/param') ? 'active' : '' !!}">
+                      <i class="fa fa-book nav-icon"></i>
+                      <p>Parameter</p>
                     </a>
                   </li>
 
