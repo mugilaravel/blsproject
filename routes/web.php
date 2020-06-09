@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/user/{id}/useredit','UserController@useredit');
     Route::post('/admin/user/{id}/userupdate','UserController@userupdate');
     Route::get('/admin/user/{id}/userdelete','UserController@userdelete');
+    Route::get('/admin/user/{id}/findbyid','UserController@userfindbyid');
 
     //Param
     Route::get('/admin/param','ParamController@param')->name('param');

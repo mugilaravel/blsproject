@@ -63,7 +63,6 @@ class ProkerController extends Controller
     public function prokerdelete($id)
     {
         $proker = \App\Proker::find($id);
-
         $prokertask=\App\ProkerTask::where('proker_kode','=',$proker->kode)->get();
         if($prokertask->count()>0){
             return redirect('job/proker')->with('sukses','Data tidak bisa di hapus, masih mempunya task.....');
@@ -75,7 +74,6 @@ class ProkerController extends Controller
 
     public function prokeredit($id)
     {
-        
         $proker = \App\Proker::find($id);
         $user = Auth::user();
         if($user->role=='ADM'){
@@ -85,9 +83,6 @@ class ProkerController extends Controller
             $departemen = \App\Departemen::where('kode','=',$user->departemen_kode)->get();
             $divisi = \App\Divisi::where('kode','=',$user->divisi_kode)->get();
         }
-        // $divisi = \App\Divisi::all();
-        // $departemen = \App\Departemen::where('divisi_kode','=',$proker->divisi_kode)->get();
-
         $tahun = \App\Param::where('param_key','=','TH')->orderBy('param_seq','ASC')->get();
         $jenis = \App\Param::where('param_key','=','JENIS')->orderBy('param_seq','ASC')->get();
         $status = \App\Param::where('param_key','=','TASKSTS')->orderBy('param_seq','ASC')->get();
@@ -99,11 +94,6 @@ class ProkerController extends Controller
                                     'data_status'=>$status,
                                     'data_tipe'=>$tipe,
                                     'data_departemen'=>$departemen]);
-
-
-
-
-        // return view('job.prokeredit',['data_proker'=>$proker,'data_divisi'=>$divisi,'data_departemen'=>$departemen]);
     }
 
     public function prokerupdate(Request $request,$id)

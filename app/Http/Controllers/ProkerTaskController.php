@@ -88,19 +88,14 @@ class ProkerTaskController extends Controller
         'data_jenis'=>$jenis,
         'data_tipe'=>$tipe,
         'data_statusproker'=>$statusProker]);
-
-
-
-
-
-
         // return view('job.prokertaskedit',['data_prokertask'=>$prokertask]);
     }
 
     public function prokertaskupdate(Request $request,$id)
     {
-        $training= \App\ProkerTask::find($id);
-        $training->update($request->all());
-        return redirect('job/prokertask')->with('sukses','Data Berhasil di Update');
+        $prokertask= \App\ProkerTask::find($id);
+        $prokertask->update($request->all());
+        $proker = \App\Proker::where('kode',$prokertask->proker_kode)->first();
+        return redirect('job/prokertask/'.$proker->id)->with('sukses','Data Berhasil di Update');
     }
 }

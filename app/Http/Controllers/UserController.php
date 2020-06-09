@@ -59,4 +59,13 @@ class UserController extends Controller
         $user->delete();
         return redirect('admin/user')->with('sukses','Data Berhasil di Hapus');
     }
+
+
+    public function userfindbyid($nik){
+        $user = \App\User::where('user_id','=',$nik)->first();
+        return json_encode($user);
+    }
+
+
+
 }

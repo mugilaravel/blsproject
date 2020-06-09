@@ -115,10 +115,6 @@
                                     @endforeach
                                 </select>     
                             </div>
-                            {{-- <div class="form-group col-md-8">
-                            <label for="kode">Kode Proker</label>
-                            <input type="text" name="kode" class="form-control" id="kode">
-                            </div> --}}
                         </div>
 
                         <div class="form-group">
@@ -147,11 +143,6 @@
                                 @endforeach
                             </select>  
                         </div>
-
-
-
-
-
                         <div class="form-group">
                             <label for="divisi">Divisi</label>
                             <select name="divisi_kode" class="form-control" id="divisi_kode">
@@ -170,10 +161,17 @@
                                 @endforeach
                             </select>       
                         </div>
-                        <div class="form-group">
-                            <label for="pic_nik">NIK PIC</label>
-                            <input type="text" name="pic_nik" class="form-control" id="pic_nik">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="pic_nik">NIK PIC</label>
+                                <input type="text" name="pic_nik" class="form-control" id="pic_nik">
+                            </div>
+                            <div class="form-group col-md-8">
+                                <label for="pic_nik">Nama PIC</label>
+                                <input type="text" name="nama_pic" class="form-control" id="nama_pic" readonly>
+                            </div>
                         </div>
+
                         <div class="form-group">
                             <label for="status">Status</label>
                             {{-- <input type="text" name="status" class="form-control" id="status"> --}}
@@ -228,6 +226,30 @@
                 $('select[name="departemen_kode"]').empty();
             }
         });
+
+
+        $('input[name="pic_nik"]').on('change', function() {
+            var nik = $(this).val();
+            if(nik) {
+                $.ajax({
+                    url: '/admin/user/'+nik+'/findbyid',
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if(data){
+                            $('#nama_pic').val(data.name);
+                        }else{
+                            $('#nama_pic').val("");
+                        }
+                    }
+                });
+            }else{
+                $('#nama_pic').val("");
+            }
+        });
+
+
+
     });
 </script>
 @endsection

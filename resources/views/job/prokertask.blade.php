@@ -55,9 +55,9 @@
                      {{-- <th>Divisi</th> --}}
                      {{-- <th>PIC</th> --}}
                      <th>Status</th>
-                     <th>Mulai</th>
-                     <th>Selesai</th>
-                     <th>NIK Review</th>
+                     {{-- <th>Mulai</th>
+                     <th>Selesai</th> --}}
+                     {{-- <th>NIK Review</th> --}}
                      <th>Dokumen File</th>
                      {{-- <th>Tahun</th> --}}
                      <th>Aksi</th>
@@ -75,9 +75,9 @@
                      {{-- <td>{{$prokertask->proker->departemen->departemen_kode}}</td>   --}}
                      {{-- <td>Divisi</td>   --}}
                      <td>{{$prokertask->status}}</td>  
-                     <td>{{$prokertask->mulai}}</td>  
-                     <td>{{$prokertask->selesai}}</td> 
-                     <td>{{$prokertask->review_nik}}</td>  
+                     {{-- <td>{{$prokertask->mulai}}</td>  
+                     <td>{{$prokertask->selesai}}</td>  --}}
+                     {{-- <td>{{$prokertask->review_nik}}</td>   --}}
                      <td>{{$prokertask->doc_path}}</td> 
                      {{-- <td>{{$prokertask->tahun}}</td>  --}}
                     
@@ -104,15 +104,6 @@
                  <div class="modal-body">
                      <form action="/job/prokertaskcreate" method="POST">
                          {{ csrf_field() }}
-                         {{-- <div class="form-group col-md-8">
-                            <label for="proker_id">proker_id</label>
-                         <input type="text" name="proker_id" class="form-control" id="proker_id" value="{{$data_proker->id}}">
-                        </div> --}}
-  
-                            {{-- <div class="form-group col-md-8">
-                                <label for="kodetask">Kode Task</label>
-                                <input type="text" name="kode" class="form-control" id="kode">
-                            </div> --}}
                             <div class="form-group col-md-12">
                                 <label for="proker_kode">Kode Proker</label>
                             <input type="text" name="proker_kode" class="form-control" id="proker_kode" value="{{$data_proker->kode}}" readonly>
@@ -130,19 +121,24 @@
                                 <label for="jenis">jenis </label>
                                 <input type="text" name="jenis" class="form-control" id="jenis">
                             </div>
-                            <div class="form-group col-md-12">
+
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="pic_nik">NIK PIC</label>
+                            <input type="text" name="pic_nik" class="form-control" id="pic_nik">
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label for="pic_nik">Nama PIC</label>
+                            <input type="text" name="nama_pic" class="form-control" id="nama_pic" readonly>
+                        </div>
+                    </div>
+
+                            {{-- <div class="form-group col-md-12">
                                 <label for="pic_nik"> pic_nik</label>
                                 <input type="text" name="pic_nik" class="form-control" id="pic_nik">
-                            </div>
- 
-                            {{-- <div class="form-group col-md-8">
-                                <label for="review_nik">review_nik </label>
-                                <input type="text" name="review_nik" class="form-control" id="review_nik">
-                            </div>
-                            <div class="form-group col-md-8">
-                                <label for="review_desc">review_desc </label>
-                                <input type="text" name="review_desc" class="form-control" id="review_desc">
                             </div> --}}
+ 
                             <div class="form-group col-md-12">
                                 <label for="status">status </label>
                                 {{-- <input type="text" name="status" class="form-control" id="status"> --}}
@@ -187,7 +183,6 @@
      $(document).ready(function() {
          $('select[name="divisi_kode"]').on('change', function() {
              var divisi_kode = $(this).val();
-             // alert('tes....................'+stateID);
              if(divisi_kode) {
                  $.ajax({
                      url: '/admin/departemen/'+divisi_kode+'/departemenbydivisi',
@@ -204,6 +199,32 @@
                  $('select[name="departemen_kode"]').empty();
              }
          });
+
+
+
+         $('input[name="pic_nik"]').on('change', function() {
+            var nik = $(this).val();
+            if(nik) {
+                $.ajax({
+                    url: '/admin/user/'+nik+'/findbyid',
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if(data){
+                            $('#nama_pic').val(data.name);
+                        }else{
+                            $('#nama_pic').val("");
+                            alert("Nik Tidk ditemukan");
+                        }
+                    }
+                });
+            }else{
+                $('#nama_pic').val("");
+            }
+        });
+
+
+
      });
  </script>
  @endsection

@@ -14,7 +14,7 @@
                     {{session('sukses')}}
                 </div>
             @endif
-            <h3>Edit Data User</h3>
+            <h3>Edit Program Kerja</h3>
             <div class="row">
                 <div class="col-lg-12">
                 <form action="/job/proker/{{$data_proker->id}}/prokerupdate" method="POST" >
@@ -56,9 +56,7 @@
                         <select name="tipe" class="form-control" id="tipe">
                             <option value="">--Tipe--</option>
                             @foreach ($data_tipe as $tipe)
-                            {{-- <option value={{$tipe->param_value}}>{{$tipe->param_desc}}</option> --}}
-                            <option value={{$tipe->param_value}} @if ($data_proker->tipe == $tipe->param_value) selected @endif>{{$tipe->param_desc}}</option>
-                      
+                                <option value={{$tipe->param_value}} @if ($data_proker->tipe == $tipe->param_value) selected @endif>{{$tipe->param_desc}}</option>
                             @endforeach
                         </select>  
                     </div>
@@ -81,9 +79,19 @@
                             @endforeach
                         </select>       
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="pic_nik">NIK PIC</label>
-                    <input type="text" name="pic_nik" class="form-control" id="pic_nik" value="{{$data_proker->pic_nik}}">
+                        <input type="text" name="pic_nik" class="form-control" id="pic_nik" value="{{$data_proker->pic_nik}}">
+                    </div> --}}
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="pic_nik">NIK PIC</label>
+                            <input type="text" name="pic_nik" class="form-control" id="pic_nik" value="{{$data_proker->pic_nik}}">
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label for="pic_nik">Nama PIC</label>
+                            <input type="text" name="nama_pic" class="form-control" id="nama_pic" readonly>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
@@ -139,6 +147,44 @@
                 $('select[name="departemen_kode"]').empty();
             }
         });
+
+
+        $('input[name="pic_nik"]').on('change', function() {
+            var nik = $(this).val();
+            if(nik) {
+                $.ajax({
+                    url: '/admin/user/'+nik+'/findbyid',
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if(data){
+                            $('#nama_pic').val(data.name);
+                        }else{
+                            $('#nama_pic').val("");
+                        }
+                    }
+                });
+            }else{
+                $('#nama_pic').val("");
+            }
+        });
+
+        var nik = "{{$data_proker->pic_nik}}";
+            $.ajax({
+                    url: '/admin/user/'+nik+'/findbyid',
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if(data){
+                            $('#nama_pic').val(data.name);
+                        }else{
+                            $('#nama_pic').val("");
+                        }
+                    }
+                });
+
+
+
     });
     </script>
 @endsection

@@ -50,7 +50,7 @@
                 {{ csrf_field() }}
                             <div class="form-group col-md-12">
                                 <label for="proker_kode">Kode Proker</label>
-                            <input type="text" name="proker_kode" class="form-control" id="proker_kode" value="{{$data_prokertask->kode}}" readonly>
+                            <input type="text" name="proker_kode" class="form-control" id="proker_kode" value="{{$data_proker->kode}}" readonly>
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="nama"> Nama Task</label>
