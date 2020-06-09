@@ -66,11 +66,11 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="{{asset('lte//plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('lte/plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('lte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('lte/dist/js/adminlte.min.js')}}"></script>
-
+{{-- <link rel="stylesheet" href="{{asset('lte/dist/css/adminlte.min.css')}}"> --}}
 </body>
 </html>
