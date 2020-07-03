@@ -17,10 +17,11 @@ class CreatePesertatraining extends Migration
             $table->id();
             $table->string('kode');
             $table->string('user_id');
-            $table->integer('nilai');
-            $table->string('atasan');
-            $table->string('bawahan');
-            $table->string('sejawat');
+            $table->string('kantor_kode')->nullable();
+            $table->integer('nilai')->nullable();
+            $table->string('atasan')->nullable();
+            $table->string('bawahan')->nullable();
+            $table->string('sejawat')->nullable();
             
             $table->timestamps();
         });

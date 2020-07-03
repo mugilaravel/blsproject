@@ -33,8 +33,8 @@
                 <table class="table table-hover text-nowrap">
                     <tr>
                     <th>User Id</th>
-                    <th>Kode</th>
-                    <th>Nilai</th>
+                    <th>Kode Training</th>
+                    {{-- <th>Nilai</th> --}}
                     <th>Atasan</th>
                     <th>Bawahan</th>
                     <th>Sejawat</th>
@@ -45,7 +45,7 @@
                 <tr>              
                     <td>{{$training->user_id}}</td>
                     <td>{{$training->kode}}</td> 
-                    <td>{{$training->nilai}}</td> 
+                    {{-- <td>{{$training->nilai}}</td>  --}}
                     <td>{{$training->atasan}}</td>  
                     <td>{{$training->bawahan}}</td>      
                     <td>{{$training->sejawat}}</td> 
@@ -75,24 +75,48 @@
                 <div class="modal-body">
                     <form action="/training/pesertatrainingcreate" method="POST">
                         {{ csrf_field() }}
-                        {{-- <div class="form-group">
-                          <label for="nama_depan">Id</label>
-                          <input type="text" name="kode" class="form-control" id="id" aria-describedby="emailHelp">
-                        </div> --}}
-                        <div class="form-group">
-                          <label for="nama">User Id</label>
-                          <input type="text" name="user_id" class="form-control" id="user_id">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="nama">User Id</label>
+                                <input type="text" name="user_id" class="form-control" id="user_id">
+                            </div>
+                            <div class="form-group col-md-8">
+                                <label for="nama">Nama</label>
+                                <input type="text" name="nama" class="form-control" id="nama">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="kode">Kode</label>
-                            <input type="text" name="kode" class="form-control" id="kode" value="{{$data_training->kode}}">
+                            {{-- <label for="kantor_kode">Kode Kantor</label>
+                            <input type="text" name="kantor_kode" class="form-control" id="kantor_kode"> --}}
+                            <select name="kantor_kode" class="form-control" id="kantor_kode" >
+                                <option value="">--Kantor--</option>
+                                @foreach ($data_kantor as $kantor)
+                                <option value={{$kantor->kode}}>{{$kantor->nama}}</option>
+                                @endforeach
+                            </select> 
+                        </div>
+
+                        {{-- <select name="status" class="form-control" id="status">
+                            <option value="">--Status--</option>
+                            @foreach ($data_status as $status)
+                            <option value={{$status->param_value}}>{{$status->param_desc}}</option>
+                            @endforeach
+                        </select>    --}}
+
+
+
+
+
+                        <div class="form-group">
+                            <label for="kode">Kode Training</label>
+                            <input type="text" name="kode" class="form-control" id="kode" value="{{$data_training->kode}}" readonly>
                           </div>
 
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="nama">Nilai</label>
                             <input type="text" name="nilai" class="form-control" id="nilai">
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="atasan">Atasan</label>
                             <input type="text" name="atasan" class="form-control" id="atasan">
@@ -118,5 +142,52 @@
 @endsection
 
 @section('footer')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select[name="divisi_kode"]').on('change', function() {
+            var divisi_kode = $(this).val();
+            if(divisi_kode) {
+                $.ajax({
+                    url: '/admin/departemen/'+divisi_kode+'/departemenbydivisi',
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $('select[name="departemen_kode"]').empty();
+                        $.each(data, function(key, value) {
+                            $('select[name="departemen_kode"]').append('<option value="'+ value.kode +'">'+ value.nama +'</option>');
+                        });
+                    }
+                });
+            }else{
+                $('select[name="departemen_kode"]').empty();
+            }
+        });
 
+
+        $('input[name="user_id"]').on('change', function() {
+            var nik = $(this).val();
+            if(nik) {
+                $.ajax({
+                    url: '/admin/user/'+nik+'/findbyid',
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if(data){
+                            $('#nama').val(data.name);
+                        }else{
+                            $('#nama').val("");
+                        }
+                    }
+                });
+            }else{
+                $('#nama').val("");
+            }
+        });
+
+
+
+
+
+    });
+</script>
 @endsection

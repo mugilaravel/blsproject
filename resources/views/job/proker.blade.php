@@ -19,17 +19,39 @@
     <input type="text" name="descripsi" class="form-control" id="descripsi">
 </div> --}}
 
-{{-- <form class="form-inline" action="@yield('urlCari')">
-    <div class="input-group input-group-sm">
-      <input class="form-control form-control-navbar" type="search" name="cari" 
-      placeholder="Cari" aria-label="CARI">
-      <div class="input-group-append">
-        <button class="btn btn-navbar" type="submit">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
+<form  action="/job/proker">
+    {{-- <div class="input-group input-group-sm"> --}}
+      {{-- <input class="form-control form-control-navbar" type="search" name="cari" 
+      placeholder="Cari" aria-label="CARI"/> --}}
+      
+      <div class="row">
+            <div class="form col-md-4">
+                <label for="nama">Nama Proker</label>
+                <input type="text" name="prokercari" class="form-control" id="prokercari"
+                value="{{$prokercari}}"
+                >
+            </div>
+            <div class="form-group col-md-4">
+                <label for="tahun">Tahun</label>
+                <select name="tahuncari" class="form-control" id="tahuncari">
+                    <option value="">--Tahun--</option>
+                    @foreach ($data_tahun as $tahun)
+                        {{-- <option value={{$tahun->param_value}}>{{$tahun->param_desc}}</option> --}}
+                        {{-- value="{{$tahuncari}}" --}}
+                        <option value={{$tahun->param_value}} @if ($tahuncari == $tahun->param_value) selected @endif>{{$tahun->param_desc}}</option>
+                    @endforeach
+                </select>     
+            </div>
+            <div class="form-group col-md-1">
+                <label for="tahun">Action</label>
+                <button type="submit" class="form-control btn btn-primary btn-sm float-right"  
+                       data-target="#staticBackdrop">Cari
+                </button>
+            </div>
+        <div class="col-md-2" style="padding-top: 5px;">
+        </div>
     </div>
-</form> --}}
+</form>
 
 
     <div class="card-body table-responsive p-0">

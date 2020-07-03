@@ -5,22 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+// untuk export
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class UserController extends Controller
 {
     public function user()
     {
-
-        // if($request->has('cari')){ //cek parameter cari apakah ada nilai
-        //     //cari data siswa dengan kriteria nama_depan %like%
-        //     $data_role =\App\Role::where('kode','LIKE','%'.$request->cari.'%')
-        //     ->orWhere('nama','LIKE','%'.$request->cari.'%')
-        //     ->paginate(10);//get();
-        // }else{
-        //     //bila tidak ada parameter request, tampilkan semua
             $data_user = \App\User::paginate(10);;
-            //  dd($data_user->all());
-        // }
-        return view('admin.user',['data_user'=> $data_user]);
+            $divisi = \App\Divisi::All();
+            $departemen = \App\Departemen::All();
+            $role = \App\Param::where('param_key','=','ROLE')->orderBy('param_seq','ASC')->get();
+        return view('admin.user',['data_user'=> $data_user,
+                                    'data_divisi'=>$divisi,
+                                    'data_departemen'=>$departemen,
+                                    'data_role'=>$role
+        ]);
     }
 
 
@@ -43,7 +44,11 @@ class UserController extends Controller
     public function useredit($id)
     {        
         $useredit = \App\User::find($id);
-        return view('admin/useredit',['user'=>$useredit]);
+        $divisi = \App\Divisi::All();
+        $departemen = \App\Departemen::All();
+        $role = \App\Param::where('param_key','=','ROLE')->orderBy('param_seq','ASC')->get();
+        return view('admin/useredit',['user'=>$useredit,'data_divisi'=>$divisi,'data_role'=>$role,
+        'data_departemen'=>$departemen]);
     }
 
     public function userupdate(Request $request,$id)
@@ -66,6 +71,13 @@ class UserController extends Controller
         return json_encode($user);
     }
 
+// export
+   
 
+    public function exportPdf() 
+    {
+        $pdf = PDF::loadView('pdf.invoice', $data);
+        return $pdf->download('invoice.pdf');
+    }
 
 }

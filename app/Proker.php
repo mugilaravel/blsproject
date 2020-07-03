@@ -9,7 +9,7 @@ class Proker extends Model
     protected $table ='proker';
     protected $fillable = [
         'kode', 'nama', 'descripsi','jenis','departemen_kode','divisi_kode','pic_nik','status',
-        'mulai','selesai','tahun','image_path','tipe'
+        'mulai','selesai','tahun','image_path','tipe','update_by','create_by'
     ];
 
     public function divisi()

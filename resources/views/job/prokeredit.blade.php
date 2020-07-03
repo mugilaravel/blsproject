@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group col-md-8">
                         <label for="kode">Kode Proker</label>
-                        <input type="text" name="kode" class="form-control" id="kode" value="{{$data_proker->kode}}">
+                        <input type="text" name="kode" class="form-control" id="kode" value="{{$data_proker->kode}}" readonly>
                         </div>
                     </div>
 
@@ -119,8 +119,7 @@
                       </div> 
                 </form>
             </div>
-        {{-- </div>
-        </div --}}
+     
 @endsection
 
   @section('footer')

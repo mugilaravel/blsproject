@@ -32,17 +32,31 @@
                           <input type="text" name="email" class="form-control" id="email" value="{{$user->email}}">
                       </div>
                       <div class="form-group">
-                          <label for="email">Role</label>
-                          <input type="text" name="role" class="form-control" id="role" value="{{$user->role}}">
-                      </div>
+                        <label for="jenis">Role</label>
+                        <select name="jenis" class="form-control" id="jenis">
+                            @foreach ($data_role as $jenis)
+                                <option value={{$jenis->param_value}} @if ($user->role == $jenis->param_value) selected @endif>{{$jenis->param_desc}}</option>
+                            @endforeach
+                        </select>  
+                    </div>
                       <div class="form-group">
-                        <label for="divisi_kode">Divisi</label>
-                        <input type="text" name="divisi_kode" class="form-control" id="divisi" value="{{$user->divisi->kode}}">
-                      </div>
-                      <div class="form-group">
-                        <label for="departemen_kode">Departemen</label>
-                        <input type="text" name="departemen_kode" class="form-control" id="departemen_kode" value="{{$user->departemen->kode}}">
-                      </div>
+                        <label for="divisi">Divisi</label>
+                        <select name="divisi_kode" class="form-control" id="divisi_kode">
+                            <option value="">Divisi</option>
+                            @foreach ($data_divisi as $divisi)
+                            <option value={{$divisi->kode}} @if ($divisi->kode == $user->divisi_kode) selected @endif>{{$divisi->nama}}</option>
+                            @endforeach
+                        </select>                        
+                    </div>
+                    <div class="form-group">
+                        <label for="departemen">Departemen</label>
+                        <select name="departemen_kode" class="form-control" id="departemen_kode">
+                            <option value="">Departemen</option>
+                            @foreach ($data_departemen as $departemen)
+                            <option value={{$departemen->kode}} @if ($departemen->kode == $user->departemen_kode) selected @endif>{{$departemen->nama}}</option>
+                            @endforeach
+                        </select>       
+                    </div>
 
                       <div class="modal-footer">
                           <a href="{{ url()->previous() }}" class="btn btn-sm btn-warning">Batal</a>
@@ -50,6 +64,55 @@
                       </div> 
                 </form>
             </div>
-            </div>
-            </div
+           
   @endsection
+
+  @section('footer')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select[name="divisi_kode"]').on('change', function() {
+                var divisi_kode = $(this).val();
+                // alert('tes....................'+divisi_kode);
+                if(divisi_kode) {
+                    $.ajax({
+                        url: '/admin/departemen/'+divisi_kode+'/departemenbydivisi',
+                        type: "GET",
+                        dataType: "json",
+                        success:function(data) {
+                            $('select[name="departemen_kode"]').empty();
+                            $.each(data, function(key, value) {
+                                $('select[name="departemen_kode"]').append('<option value="'+ value.kode +'">'+ value.nama +'</option>');
+                            });
+                        }
+                    });
+                }else{
+                    $('select[name="departemen_kode"]').empty();
+                }
+            });
+
+
+            $('input[name="pic_nik"]').on('change', function() {
+                var nik = $(this).val();
+                if(nik) {
+                    $.ajax({
+                        url: '/admin/user/'+nik+'/findbyid',
+                        type: "GET",
+                        dataType: "json",
+                        success:function(data) {
+                            if(data){
+                                $('#nama_pic').val(data.name);
+                            }else{
+                                $('#nama_pic').val("");
+                            }
+                        }
+                    });
+                }else{
+                    $('#nama_pic').val("");
+                }
+            });
+
+
+
+        });
+    </script>
+@endsection

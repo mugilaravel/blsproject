@@ -20,7 +20,7 @@ Route::get('/login','LoginController@index')->name('login');
 Route::post('/postlogin','LoginController@postlogin');
 Route::get('/logout', 'LoginController@logout');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','checkRole:ADM']], function () {
     Route::get('/dashboard','DashboardController@dashboard')->name('dashboard');
     Route::get('/blank','DashboardController@blank')->name('blank');
 
@@ -31,6 +31,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/admin/user/{id}/userupdate','UserController@userupdate');
     Route::get('/admin/user/{id}/userdelete','UserController@userdelete');
     Route::get('/admin/user/{id}/findbyid','UserController@userfindbyid');
+    // export
+    Route::get('/admin/user/export','EximController@export')->name('export');
+    Route::get('/admin/exim','EximController@exim')->name('exim');
+    Route::get('/admin/user/import','EximController@import');
+    Route::get('/admin/user/exportpdf','UserController@exportPdf');
+    Route::post('/admin/user/import','EximController@import')->name('import');
 
     //Param
     Route::get('/admin/param','ParamController@param')->name('param');
@@ -70,17 +76,32 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/training/pesertatraining/{id}/pesertatrainingdelete','PesertatrainingController@pesertatrainingdelete');
 
 
-     // Proker
-     Route::get('/job/proker','ProkerController@proker')->name('proker');
-     Route::post('/job/prokercreate','ProkerController@prokercreate');
-     Route::get('/job/proker/{id}/prokeredit','ProkerController@prokeredit');
-     Route::post('/job/proker/{id}/prokerupdate','ProkerController@prokerupdate');
-     Route::get('/job/proker/{id}/prokerdelete','ProkerController@prokerdelete');
+    
 
-     // ProkerTask
-     Route::get('/job/prokertask/{id}','ProkerTaskController@prokertask')->name('prokertask');
-     Route::post('/job/prokertaskcreate','ProkerTaskController@prokertaskcreate');
-     Route::get('/job/prokertask/{id}/prokertaskedit','ProkerTaskController@prokertaskedit');
-     Route::post('/job/prokertask/{id}/prokertaskupdate','ProkerTaskController@prokertaskupdate');
-     Route::get('/job/prokertask/{id}/prokertaskdelete','ProkerTaskController@prokertaskdelete');
+     
+    });
+
+    Route::group(['middleware' => ['auth','checkRole:ADM,USR']], function () {
+        Route::get('/dashboard','DashboardController@dashboard')->name('dashboard');
+
+         // Proker
+        Route::get('/job/proker','ProkerController@proker')->name('proker');
+        Route::post('/job/prokercreate','ProkerController@prokercreate');
+        Route::get('/job/proker/{id}/prokeredit','ProkerController@prokeredit');
+        Route::post('/job/proker/{id}/prokerupdate','ProkerController@prokerupdate');
+        Route::get('/job/proker/{id}/prokerdelete','ProkerController@prokerdelete');
+
+        // ProkerTask
+        Route::get('/job/prokertask/{id}','ProkerTaskController@prokertask')->name('prokertask');
+        Route::post('/job/prokertaskcreate','ProkerTaskController@prokertaskcreate');
+        Route::get('/job/prokertask/{id}/prokertaskedit','ProkerTaskController@prokertaskedit');
+        Route::post('/job/prokertask/{id}/prokertaskupdate','ProkerTaskController@prokertaskupdate');
+        Route::get('/job/prokertask/{id}/prokertaskdelete','ProkerTaskController@prokertaskdelete');
+
+        Route::get('/admin/user/{id}/findbyid','UserController@userfindbyid');
+        //DOWLOAD
+        Route::get('/upload', 'UploadController@upload');
+        Route::post('/upload/proses', 'UploadController@proses_upload');
+
+
     });

@@ -25,17 +25,50 @@
                 </div>
             </div>
             <div>
-               Kode : {{$data_proker->kode}}<br>
-               Tahun : {{$data_proker->tahun}}<br>
-               Deskripsi :{{$data_proker->descripsi}}<br>
-               Jenis :{{$data_jenis->param_desc}}<br>
-               Tipe :{{$data_tipe->param_desc}}<br>
-               Divisi :{{$data_proker->divisi->nama}}<br>
-               Departemen :{{$data_proker->departemen->nama}}<br>
-               Status:{{$data_statusproker->param_desc}}<br>
-               Mulai :{{$data_proker->mulai}}<br>
-               Selesai :{{$data_proker->selesai}}<br>
-            </div>
+                <div class="row">
+                    <div class="col-12">
+                        Deskripsi :{{$data_proker->descripsi}}<br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        Kode : {{$data_proker->kode}}<br>
+                    </div>
+                    <div class="col-4">
+                        Tahun : {{$data_proker->tahun}}<br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        Jenis :{{$data_jenis->param_desc}}<br>
+                    </div>
+                    <div class="col-4">
+                        Tipe :{{$data_tipe->param_desc}}<br>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-4">
+                       Divisi :{{$data_proker->divisi->nama}}<br>
+                   </div>
+                   <div class="col-4">
+                       Departemen :{{$data_proker->departemen->nama}}<br>
+                  </div>
+               </div>
+               <div class="row">
+                   <div class="col-4">
+                       Status:{{$data_statusproker->param_desc}}<br>
+                   </div>
+                   <div class="col-4">
+                  </div>
+               </div>
+               <div class="row">
+                   <div class="col-4">
+                       Mulai :{{$data_proker->mulai}}<br>
+                   </div>
+                   <div class="col-4">
+                       Selesai :{{$data_proker->selesai}}<br>
+                  </div>
+               </div>
 
 
             @if (session('sukses'))
@@ -43,46 +76,51 @@
                 {{session('sukses')}}
             </div>
         @endif
-        <h3>Edit Data Task</h3>
+        <h3>Edit Task:: {{$data_prokertask->nama}}</h3>
         <div class="row">
             <div class="col-lg-12">
-            <form action="/job/prokertask/{{$data_prokertask->id}}/prokertaskupdate" method="POST" >
+            <form action="/job/prokertask/{{$data_prokertask->id}}/prokertaskupdate" method="POST" enctype="multipart/form-data" >
                 {{ csrf_field() }}
-                            <div class="form-group col-md-12">
+                        <div class="row">
+                            <div class="form-group col-md-3">
                                 <label for="proker_kode">Kode Proker</label>
-                            <input type="text" name="proker_kode" class="form-control" id="proker_kode" value="{{$data_proker->kode}}" readonly>
+                                <input type="text" name="proker_kode" class="form-control" id="proker_kode" value="{{$data_proker->kode}}" readonly>
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-9">
                                 <label for="nama"> Nama Task</label>
                                 <input type="text" name="nama" class="form-control" id="nama" value="{{$data_prokertask->nama}}" >
                             </div>
+                        </div>
                             <div class="form-group col-md-12">
                                 <label for="descripsi">descripsi </label>
                                 <input type="text" name="descripsi" class="form-control" id="descripsi" value="{{$data_prokertask->descripsi}}">
                             </div>
         
-                            <div class="form-group col-md-12">
+                            {{-- <div class="form-group col-md-12">
                                 <label for="jenis">jenis </label>
                                 <input type="text" name="jenis" class="form-control" id="jenis" value="{{$data_prokertask->jenis}}">
+                            </div> --}}
+                            <div class="row">
+                                <div class="form-group col-md-2">
+                                    <label for="pic_nik"> pic_nik</label>
+                                    <input type="text" name="pic_nik" class="form-control" id="pic_nik" value="{{$data_prokertask->pic_nik}}">
+                                </div>
+                            
+                                <div class="form-group col-md-5">
+                                    <label for="status">status </label>
+                                    <select name="status" class="form-control" id="status">
+                                        <option value="">--Status--</option>
+                                        @foreach ($data_status as $status)
+                                        <option value={{$status->param_value}} @if ($data_prokertask->status == $status->param_value) selected @endif>{{$status->param_desc}}</option>
+                                        @endforeach
+                                    </select>   
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label for="bobot">bobot </label>
+                                    <input type="text" name="bobot" class="form-control" id="bobot" value="{{$data_prokertask->bobot}}">
+                                </div>
                             </div>
-                            <div class="form-group col-md-12">
-                                <label for="pic_nik"> pic_nik</label>
-                                <input type="text" name="pic_nik" class="form-control" id="pic_nik" value="{{$data_prokertask->pic_nik}}">
-                            </div>
- 
-                            <div class="form-group col-md-12">
-                                <label for="status">status </label>
-                                <select name="status" class="form-control" id="status">
-                                    <option value="">--Status--</option>
-                                    @foreach ($data_status as $status)
-                                    <option value={{$status->param_value}} @if ($data_prokertask->status == $status->param_value) selected @endif>{{$status->param_desc}}</option>
-                                    @endforeach
-                                </select>   
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="doc_path">doc_path </label>
-                                <input type="text" name="doc_path" class="form-control" id="doc_path" value="{{$data_prokertask->doc_path}}">
-                            </div>
+
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="mulai">mulai </label>
@@ -92,6 +130,21 @@
                                     <label for="selesai">selesai </label>
                                     <input type="date" name="selesai" class="form-control" id="selesai" value="{{$data_prokertask->selesai}}">
                                 </div>
+                            </div>
+
+
+                            <div class="form-group col-md-12">
+                                <label for="doc_path">Upload </label>
+                                <input type="file" name="doc_path_filename" class="form-control" id="doc_path_filename">
+                                {{-- <input type="file" name="doc_path" class="form-control" id="doc_path" value="{{$data_prokertask->doc_path}}"> --}}
+                            </div>
+
+
+                            <div class="form-group col-md-12">
+                                <label for="doc_path_filename">doc_path </label>
+                                <input type="text" name="doc_path" 
+                                    class="form-control" id="doc_path" 
+                                    value="{{$data_prokertask->doc_path}}">
                             </div>
                             <div class="modal-footer">
                                 <a href="{{ url()->previous() }}" class="btn btn-sm btn-warning">Batal</a>

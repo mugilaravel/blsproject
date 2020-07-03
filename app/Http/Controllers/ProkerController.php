@@ -9,19 +9,50 @@ use Illuminate\Support\Str;
 
 class ProkerController extends Controller
 {
-    public function proker()
+    public function proker(Request $request)
     {
+        // $test = \App\Http\Controllers\TblSeqController::getnewseq('z');
+        // $seq = ($test->value);
+        
+        // if($request->has('tahuncari')){ //cek parameter cari apakah ada nilai
+        //     // $data_siswa =\App\Siswa::where('nama_depan','LIKE','%'.$request->cari.'%')
+        //     //             ->orWhere('nama_belakang','LIKE','%'.$request->cari.'%')
+        //     //             ->paginate(10);//get();
+        // }else{
+        //     //bila tidak ada parameter request, tampilkan semua
+        //     // $data_siswa = \App\Siswa::all();
+        //     //bila tidak ada parameter request, tampilkan semua
+        //     // $data_siswa = \App\Siswa::paginate(10);
+        // }
 
-        // Get the currently authenticated user...
+
+
+
+
         $user = Auth::user();
         if($user->role=='ADM'){
             $proker = \App\Proker::paginate(10);
             $divisi = \App\Divisi::All();//where('kode','=',$user->divisi_kode)->get();
             $departemen = \App\Departemen::All();//where('kode','=',$user->departemen_kode)->get();
         }else{
-            $proker = \App\Proker::where('divisi_kode','=',$user->divisi_kode)
-            ->where('departemen_kode','=',$user->departemen_kode)
-            ->paginate(10);
+            $proker = \App\Proker::where('divisi_kode','=',$user->divisi_kode);
+            $proker=$proker->where('departemen_kode','=',$user->departemen_kode);
+
+            if($request->has('tahuncari')){ //cek parameter cari apakah ada nilai
+                if($request->tahuncari != ''){
+                    $proker=$proker->where('tahun','=',$request->tahuncari);
+                }
+            }
+
+            if($request->has('prokercari')){ //cek parameter cari apakah ada nilai
+                if($request->prokercari != ''){
+                    $proker=$proker->where('nama','LIKE','%'.$request->prokercari.'%');
+                }
+            }
+
+            $proker=$proker->paginate(10);
+
+            // dd($proker);
             $departemen = \App\Departemen::where('kode','=',$user->departemen_kode)->get();
             $divisi = \App\Divisi::where('kode','=',$user->divisi_kode)->get();
         }
@@ -35,15 +66,20 @@ class ProkerController extends Controller
                                     'data_jenis'=>$jenis,
                                     'data_status'=>$status,
                                     'data_tipe'=>$tipe,
-                                    'data_departemen'=>$departemen]);
+                                    'data_departemen'=>$departemen,
+                                    'tahuncari'=>$request->tahuncari,
+                                    'prokercari'=>$request->prokercari]);
     }
 
     public function prokercreate(Request $request)
     {
+
         $th = Str::substr($request->tahun, 2, 2);
         $prokerCount = \App\Proker::where('departemen_kode','=',$request->departemen_kode)->get();
         $proker = new \App\Proker;
-        $proker->kode =$request->departemen_kode.$th.($prokerCount->count()+1001);
+        //rubah pake squence ya ..............................
+        $seq = \App\Http\Controllers\TblSeqController::getnewseq('prokerseq');
+        $proker->kode =$request->departemen_kode.$th.(($seq->value)+1000);
         $proker->nama = $request->nama;
         $proker->descripsi =$request->descripsi;
         $proker->jenis =$request->jenis;
@@ -55,7 +91,9 @@ class ProkerController extends Controller
         $proker->selesai =$request->selesai;
         $proker->tahun =$request->tahun;
         $proker->tipe =$request->tipe;
-      
+        $user = Auth::user();
+        $proker->create_by=$user->user_id;
+
         $proker->save();
         return redirect('job/proker')->with('sukses','Data Berhasil di Simpan');
     }
@@ -99,6 +137,8 @@ class ProkerController extends Controller
     public function prokerupdate(Request $request,$id)
     {
         $training= \App\Proker::find($id);
+        $user = Auth::user();
+        $request->request->add(['update_by' => $user->user_id]);
         $training->update($request->all());
         return redirect('job/proker')->with('sukses','Data Berhasil di Update');
     }

@@ -9,7 +9,7 @@ class ProkerTask extends Model
     protected $table ='prokertask';
     protected $fillable = [
         'kode', 'proker_kode', 'descripsi','nama','jenis','pic_nik','review_nik',
-        'review_desc','status','mulai','selesai','doc_path'
+        'review_desc','status','mulai','selesai','doc_path','bobot','create_by','update_by'
     ];
 
     public function proker()

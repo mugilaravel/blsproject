@@ -10,8 +10,12 @@ class PesertaTrainingController extends Controller
     {
         $pesertatraining = \App\PesertaTraining::where('kode','=',$kode)->paginate(10);
         $training= \App\Training::where('kode','=',$kode)->firstOrFail();
-    return view('training.pesertatraining',['data_pesertatraining'=> $pesertatraining,
-    'data_training'=>$training]);
+        $kantor=\App\TblKantor::all();
+        // dd($kantor);
+        return view('training.pesertatraining',[
+            'data_pesertatraining'=> $pesertatraining,
+            'data_kantor'=>$kantor,
+            'data_training'=>$training]);
     }
 
     public function pesertatrainingcreate(Request $request)
@@ -22,7 +26,8 @@ class PesertaTrainingController extends Controller
         $training->nilai = $request->nilai;
         $training->atasan =$request->atasan;
         $training->bawahan =$request->bawahan;  
-        $training->sejawat=$request->sejawat;    
+        $training->sejawat=$request->sejawat;   
+        $training->kantor_kode=$request->kantor_kode;    
         $training->save();
 
         return redirect('training/pesertatraining/'.$training->kode)->with('sukses','Data Berhasil di Simpan');
